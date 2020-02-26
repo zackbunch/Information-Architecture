@@ -1,0 +1,31 @@
+﻿@model PageVM
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Hero image here?</p>
+
+    <div class="row">      
+      <div class="col-sm">
+        <h2>
+          @Model.PageContents.OrderBy(x => x.Id).FirstOrDefault().Header
+        </h2>
+        <small>Last Update: @Model.PageContents.FirstOrDefault(x => x.ViewIndex == 1).DateUpdated.Value.ToShortDateString()</small>
+        <br />
+        @Html.Raw(Model.PageContents.OrderBy(x => x.Id).FirstOrDefault().Content)
+      </div>
+    </div>
+
+    <div class="row">
+      @foreach (var cb in Model.PageContents.Where(x => x.ViewIndex != 1).OrderBy(x => x.ViewIndex)) {
+      <div class="col-sm-4">
+        <h2>@cb.Header</h2>
+        @Html.Raw(cb.Content)
+      </div>
+      }
+    </div>
+    
+</div>

@@ -1,0 +1,48 @@
+﻿@*@model List<PageVM>*@
+
+@{
+  ViewData["Title"] = "Index";
+}
+
+<h1>Administration</h1>
+
+<div id="accordion">
+  <div class="card">
+    <div class="card-header" id="pageContentHeading">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#pageContent" aria-expanded="true" aria-controls="pageContent">
+          Page Content
+        </button>
+      </h5>
+    </div>
+    <div id="pageContent" class="collapse show" aria-labelledby="pageContentHeading" data-parent="#accordion">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm"> @Html.Label("selectedPage", "Page:")</div>
+          <div class="col-sm">
+            @Html.DropDownList("selectedPage", BHR.Classes.Helpers.AdminHelpers.RetrievePages())
+          </div>
+        </div>
+        <div class="row" id="contentBlockList"></div>
+        <div id="contentBlock"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+    $("#selectedPage").change(function () {
+      //$("#contentBlockList").load('/Admin/RetrievePageContentBlocks', { PageId: $(this).val() });
+      $.get("/Admin/RetrievePageContentBlocks", { PageId: $(this).val() }, function (data, status) {
+        $("#contentBlockList").empty().append(data);
+        $("#contentBlock").empty();
+      });
+    });
+
+
+
+  });
+</script>
+

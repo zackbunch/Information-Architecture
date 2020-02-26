@@ -1,0 +1,12 @@
+﻿@model List<SelectListItem>
+
+<div class="col-sm">@Html.Label("selectedPageContentBlock", "Content Block:")</div>
+<div class="col-sm">@Html.DropDownList("selectedPageContentBlock", Model)</div>
+
+<script>
+$("#selectedPageContentBlock").change(function () {
+    $.get("/Admin/RetrieveContentBlock", { ContentId: $(this).val() }, function (data, status) {
+        $("#contentBlock").empty().append(data);
+      });
+    });
+</script>

@@ -1,0 +1,35 @@
+﻿@model ContentBlockVM
+
+<form id="ContentForm" method="post">
+  <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+  <div class="form-group">
+    <label for="Header">Current Header:</label>
+    <input type="text" class="form-control" id="Header" name="Header" value="@Model.Header" />
+  </div>
+  <div class="form-group">
+    <label for="ViewIndex">Current View Index:</label>
+    <input type="text" class="form-control" id="ViewIndex" name="ViewIndex" value="@Model.ViewIndex" />
+  </div>
+  <div class="form-group">
+    <label for="Content">Current Content:</label>
+    <textarea class="form-control" id="Content" name="Content">@Model.Content</textarea>
+  </div>
+
+  <button id="content-edit-button">Save Changes</button>
+</form>
+
+
+<script>
+  var editor = CKEDITOR.replace('Content');
+
+  $("#content-edit-button").click(function () {
+    $("#Content").val(editor.getData());
+
+    $.post("/Admin/UpdateContentBlock",
+      $("#ContentForm").serialize(),
+      function (data, status) {
+        alert("Content block was successfully updated!");
+        $("#contentBlock").empty().append(data);
+      });
+  });
+</script>
